@@ -66,7 +66,7 @@ const TickerBlock: FC<Ticker> = ({ name, price }) => {
             clipRule='evenodd'
           ></path>
         </svg>
-        Удалить
+        Delete
       </button>
     </div>
   );

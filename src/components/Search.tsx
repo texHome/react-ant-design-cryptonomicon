@@ -13,6 +13,7 @@ const Search: FC = () => {
   const { tickers } = useSelector(selectTickerState);
   const [showAutoComplete, setShowAutoComplete] = useState<boolean>(false);
   const [showWarning, setShowWarning] = useState<boolean>(false);
+  const [warning, setWarning] = useState<string>('');
   const [autoCompleteList, setAutoCompleteList] = useState<string[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -60,16 +61,34 @@ const Search: FC = () => {
   }
 
   function isTickerExists(name: string): boolean {
-    return tickers.filter(ticker => ticker.name === name).length > 0;
+    return tickers
+      .filter(ticker => ticker.name.toLowerCase() === name.toLowerCase()).length > 0;
+  }
+
+  function isCoinExists(name: string): boolean {
+    return coins
+      .filter(coin => coin.Symbol.toLowerCase() === name.toLowerCase()).length > 0;
+  }
+
+  function validateTickerName(name: string): string | null {
+    let error: string | null = null;
+    if (!isCoinExists(name)) {
+      error = `Such coin doesn't exists`;
+    } else if (isTickerExists(name)) {
+      error = 'Such ticker exists';
+    }
+    return error;
   }
 
   function onAddClick(name: string): void {
-    name = name.toUpperCase();
-    if (!isTickerExists(name)) {
+    const error: string | null = validateTickerName(name);
+    if (!error) {
+      name = name.toUpperCase();
       dispatch(addTicker(name));
       subscribe(name, getHandler(name));
     } else {
       setShowWarning(true);
+      setWarning(error);
     }
     inputRef.current?.focus();
   }
@@ -80,10 +99,19 @@ const Search: FC = () => {
     };
   }
 
-  function onKeyPress(event: KeyboardEvent): void {
+  function onCoinSearchKeyPress(event: KeyboardEvent): void {
     if (event.key === 'Enter') {
       onAddClick(coinSearch);
       dispatch(setCoinSearch(''));
+    }
+    if (event.key === 'Escape') {
+      dispatch(setCoinSearch(''));
+    }
+  }
+
+  function onTickerSearchKeyPress(event: KeyboardEvent): void {
+    if (event.key === 'Escape') {
+      dispatch(setTickerSearch(''));
     }
   }
 
@@ -98,58 +126,67 @@ const Search: FC = () => {
   }
 
   return (
-    <div>
-      <div className='flex'>
-        <div className='max-w-xs'>
-          <label htmlFor='wallet' className='block text-sm font-medium text-gray-700'>Тикер</label>
-          <div className='mt-1 relative rounded-md shadow-md'>
-            <input
-              ref={inputRef}
-              type='text'
-              name='wallet'
-              onChange={onCoinSearchChange}
-              onKeyDown={onKeyPress}
-              value={coinSearch}
-              id='wallet'
-              className='block w-full pr-10 border-gray-300 text-gray-900 focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm rounded-md'
-              placeholder='Например DOGE'
-            />
+    <div className='flex flex-row'>
+      <div className='m-5'>
+        <div className='flex'>
+          <div className='max-w-xs'>
+            <div className='relative rounded-md shadow-md'>
+              <input
+                ref={inputRef}
+                type='text'
+                name='wallet'
+                onChange={onCoinSearchChange}
+                onKeyDown={onCoinSearchKeyPress}
+                value={coinSearch}
+                id='wallet'
+                className='block w-full pr-10 border-gray-300 text-gray-900 focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm rounded-md'
+                placeholder='Coin search'
+              />
+            </div>
+            {showAutoComplete &&
+              <div className='flex bg-white shadow-md p-1 rounded-md shadow-md flex-wrap'>
+                {getAutoComplete()}
+              </div>}
+            {showWarning && <div className='p-1 text-sm text-red-600'>{warning}</div>}
           </div>
-          {showAutoComplete &&
-            <div className='flex bg-white shadow-md p-1 rounded-md shadow-md flex-wrap'>
-              {getAutoComplete()}
-            </div>}
-          {showWarning && <div className='text-sm text-red-600'>Такой тикер уже добавлен</div>}
         </div>
       </div>
-      <button
-        onClick={() => onAddClick(coinSearch)}
-        type='button'
-        className='my-4 inline-flex items-center py-2 px-4 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-full text-white bg-gray-600 hover:bg-gray-1000 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500'>
-        <svg
-          className='-ml-0.5 mr-2 h-6 w-6'
-          xmlns='http://www.w3.org/2000/svg'
-          width='30'
-          height='30'
-          viewBox='0 0 24 24'
-          fill='#ffffff'>
-          <path
-            d='M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z'
-          ></path>
-        </svg>
-        Добавить
-      </button>
-      <div className='mt-1 relative rounded-md shadow-md'>
-        <input
-          onChange={onTickerSearchChange}
-          value={tickerSearch}
-          type='text'
-          name='wallet'
-          id='wallet'
-          className='block w-full pr-10 border-gray-300 text-gray-900 focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm rounded-md'
-          placeholder='Например DOGE'
-        />
+      <div className='mt-5'>
+        <button
+          disabled={coinSearch === ''}
+          onClick={() => onAddClick(coinSearch)}
+          type='button'
+          className={`${coinSearch === '' ? 'bg-gray-400' : 'bg-gray-600 hover:bg-gray-700'} inline-flex items-center py-1.5 px-4 border border-transparent shadow-sm text-sm leading-4 font-medium rounded-full text-white transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500`}>
+          <svg
+            className='-ml-0.5 mr-2 h-6 w-6'
+            xmlns='http://www.w3.org/2000/svg'
+            width='30'
+            height='30'
+            viewBox='0 0 24 24'
+            fill='#ffffff'>
+            <path
+              d='M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z'
+            ></path>
+          </svg>
+          Add
+        </button>
       </div>
+      <div className='m-5 grow'>
+        <div className='flex justify-center'>
+          <div className='relative rounded-md shadow-md'>
+            <input
+              onChange={onTickerSearchChange}
+              onKeyDown={onTickerSearchKeyPress}
+              value={tickerSearch}
+              type='text'
+              name='wallet'
+              id='wallet'
+              className='block w-96 pr-10 border-gray-300 text-gray-900 focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm rounded-md'
+              placeholder='Ticker search' />
+          </div>
+        </div>
+      </div>
+
     </div>
   );
 };

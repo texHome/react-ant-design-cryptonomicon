@@ -15,12 +15,9 @@ const Header: FC = () => {
   }, []);
 
   return (
-    <div>
-      <section>
-        <Search />
-      </section>
-      <hr className='w-full border-t border-gray-600 my-4' />
-    </div>
+    <section>
+      <Search />
+    </section>
   );
 };
 

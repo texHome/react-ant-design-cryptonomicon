@@ -41,18 +41,23 @@ const Plot = () => {
 
   return (
     <section className='relative'>
+      <hr className='w-full border-t border-gray-600 my-4' />
       <h3 className='text-lg leading-6 font-medium text-gray-900 my-8'>
         {selectedTickerName} - USD
       </h3>
       <div className='flex items-end border-gray-600 border-b border-l h-64'>
         {items.map((item, index) =>
-          <div key={index} className='bg-purple-800 border w-10' style={getStyle(item)}></div>,
+
+          <div key={index} className='bg-purple-800 border w-10 group flex relative z-0' style={getStyle(item)}>
+            <span className="group-hover:opacity-100 transition-opacity bg-gray-800 px-1 text-sm text-gray-100 rounded-md absolute left-1/2
+    -translate-x-1/2 translate-y-full opacity-0 m-4 mx-auto z-10">{items[index]}</span>
+          </div>
         )}
       </div>
       <button
         onClick={onCloseClick}
         type='button'
-        className='absolute top-0 right-0'>
+        className='absolute top-5 right-0'>
         <svg
           xmlns='http://www.w3.org/2000/svg'
           version='1.1'
