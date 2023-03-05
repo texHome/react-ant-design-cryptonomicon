@@ -54,7 +54,8 @@ const Search: FC = () => {
       .filter(coin => coin.Symbol.toLowerCase() !== coinSearch.toLowerCase())
       .sort((coin1, coin2) => coin1.Symbol.length - coin2.Symbol.length);
     const tertiaryList: Coin[] = coins.filter((coin) =>
-      coin.Symbol.toLowerCase().includes(coinSearch.toLowerCase()))
+      coin.Symbol.toLowerCase().includes(coinSearch.toLowerCase())
+      && !coin.Symbol.toLowerCase().startsWith(coinSearch.toLowerCase()))
       .sort((coin1, coin2) => coin1.Symbol.length - coin2.Symbol.length);
 
     return primaryList.concat(secondaryList).concat(tertiaryList);
