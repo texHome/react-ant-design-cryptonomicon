@@ -174,7 +174,7 @@ const Search: FC = () => {
         </button>
       </div>
       <div className='m-5 grow'>
-        <div className='flex justify-center'>
+        <div className='flex justify-end'>
           <div className='relative rounded-md shadow-md'>
             <input
               onChange={onTickerSearchChange}
