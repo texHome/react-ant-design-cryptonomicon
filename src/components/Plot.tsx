@@ -48,9 +48,10 @@ const Plot = () => {
       <div className='flex items-end border-gray-600 border-b border-l h-64'>
         {items.map((item, index) =>
 
-          <div key={index} className='bg-purple-800 border w-10 group flex relative z-0' style={getStyle(item)}>
+          <div key={index} className='bg-purple-800 border w-10 group flex relative' style={getStyle(item)}>
             <span className="group-hover:opacity-100 transition-opacity bg-gray-800 px-1 text-sm text-gray-100 rounded-md absolute left-1/2
-    -translate-x-1/2 translate-y-full opacity-0 m-4 mx-auto z-10">{items[index]}</span>
+-translate-x-1/2 -translate-y-10 opacity-0 m-4 mx-auto z-10">{items[index]}
+            </span>
           </div>
         )}
       </div>

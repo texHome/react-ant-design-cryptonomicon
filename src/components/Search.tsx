@@ -122,7 +122,8 @@ const Search: FC = () => {
         key={index}
         className='inline-flex items-center px-2 m-1 rounded-md text-xs font-medium bg-gray-300 text-gray-800 hover:bg-gray-600 hover:text-white transition-colors duration-300 cursor-pointer'>
         {symbol}
-      </span>));
+      </span>)
+    );
   }
 
   return (

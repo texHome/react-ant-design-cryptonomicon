@@ -13,18 +13,25 @@ const TickersPane = () => {
       .includes(tickerSearch.toLowerCase()))
   }
 
+  function onPageChange(page: number): void {
+
+  }
+
   useEffect(()=> {}, [tickerSearch])
 
   return (
-    <div>
-      <hr className='w-full border-t border-gray-600 my-4' />
-      <dl className='mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3'>
-        {
-          getFilteredTickers().map((ticker, index) =>
-            <TickerBlock key={index} name={ticker.name} price={ticker.price} />)
-        }
-      </dl>
-    </div>
+    <>
+      <div>
+        <hr className='w-full border-t border-gray-600 my-4' />
+        <dl className='mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3'>
+          {
+            getFilteredTickers().map((ticker, index) =>
+              <TickerBlock key={index} name={ticker.name} price={ticker.price} />)
+          }
+        </dl>
+      </div>
+
+    </>
   );
 };
 
