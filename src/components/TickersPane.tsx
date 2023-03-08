@@ -55,7 +55,7 @@ const TickersPane = () => {
         <dl className='mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3'>
           {
             getPageTickers().map((ticker, index) =>
-              <TickerBlock key={index} name={ticker.name} price={ticker.price} />)
+              <TickerBlock key={index} {...ticker} />)
           }
         </dl>
       </div>

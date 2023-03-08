@@ -1,3 +1,4 @@
+export const BASE_URL = 'https://www.cryptocompare.com'
 const API_KEY: string = '3a20abbc7379ef2d63c3a3f3b78efd53a44870ee29e751b9093726e35f919ecc';
 const URL: string = `wss://streamer.cryptocompare.com/v2/?api_key=${API_KEY}`;
 const AGGREGATE_INDEX: string = '5';

@@ -4,6 +4,7 @@ import { RootState } from '../store';
 export interface Ticker {
   name: string;
   price: string;
+  url: string
 }
 
 type TickerSliceState = {
@@ -20,8 +21,8 @@ export const tickerSlice = createSlice({
   name: 'ticker',
   initialState,
   reducers: {
-    addTicker(state: TickerSliceState, action: PayloadAction<string>): void {
-      state.tickers.push({ name: action.payload, price: '-' });
+    addTicker(state: TickerSliceState, action: PayloadAction<Ticker>): void {
+      state.tickers.push(action.payload);
     },
     removeTicker(state: TickerSliceState, action: PayloadAction<string>): void {
       state.tickers = state.tickers.filter(ticker => ticker.name !== action.payload);
