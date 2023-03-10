@@ -3,7 +3,7 @@ import SearchBlock from './SearchBlock';
 import { fetchCoins } from '../redux/slice/coinsSlice';
 import { useAppDispatch } from '../redux/store';
 
-const Header: FC = () => {
+const HeaderBlock: FC = () => {
   const dispatch = useAppDispatch();
 
   function getCoins() {
@@ -21,4 +21,4 @@ const Header: FC = () => {
   );
 };
 
-export default Header;
+export default HeaderBlock;
