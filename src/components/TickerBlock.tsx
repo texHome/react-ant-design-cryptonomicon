@@ -4,7 +4,7 @@ import { useAppDispatch } from '../redux/store';
 import { unsubscribe } from '../api/api';
 import { addPlotItem, clearPlotItems, setIsPlotActive } from '../redux/slice/plotSlice';
 import { useSelector } from 'react-redux';
-import { Avatar, Card } from 'antd';
+import { Avatar, Card, Select } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 import Meta from 'antd/es/card/Meta';
 
@@ -72,20 +72,26 @@ const TickerBlock: FC<Ticker> = ({ name, price, url }) => {
     //     Delete
     //   </button>
     // </div>
-    <Card
-      bordered={true}
-      style={{
-        width: 300,
-      }}
-      actions={[
-        <DeleteOutlined key="delete" onClick={onRemoveClick}/>,
-      ]}>
-      <Meta
-        avatar={<Avatar src={url} />}
-        title={`${name} - USD`}
-      />
-      <h2>{price}</h2>
-    </Card>
+      <Card
+        className={isSelected ? 'selected-ticker-border' : ""}
+        title={
+          <Meta
+            style={{ justifyContent: 'center' }}
+            avatar={<Avatar src={url} />}
+            title={`${name} - USD`}
+          />
+        }
+        hoverable
+        bordered={true}
+        style={{
+          width: 300,
+        }}
+        actions={[
+          <DeleteOutlined key='delete' onClick={onRemoveClick} />,
+        ]}>
+
+        <h2 onClick={onTickerClick} style={{ textAlign: 'center' }}>{price}</h2>
+      </Card>
   );
 };
 

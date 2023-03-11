@@ -1,14 +1,13 @@
-import React, { ChangeEvent, FC, KeyboardEvent, ReactNode, useEffect, useState } from 'react';
+import React, { ChangeEvent, FC, KeyboardEvent, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Coin, fetchCoins, selectCoinsState } from '../redux/slice/coinsSlice';
+import { Coin, selectCoinsState } from '../redux/slice/coinsSlice';
 import { useAppDispatch } from '../redux/store';
 import { addTicker, selectTickerState, updateTicker } from '../redux/slice/tickerSlice';
 import { BASE_URL, subscribe } from '../api/api';
 import { selectSearchState, setCoinSearch, setTickerSearch } from '../redux/slice/searchSlice';
 import Search from 'antd/es/input/Search';
 import { SearchOutlined } from '@ant-design/icons';
-import { AutoComplete, Input, Tag } from 'antd';
-import { DefaultOptionType } from 'rc-select/lib/Select';
+import { Alert, AutoComplete, Input, Tag } from 'antd';
 
 const SearchBlock: FC = () => {
   const dispatch = useAppDispatch();
@@ -19,21 +18,9 @@ const SearchBlock: FC = () => {
   const [warning, setWarning] = useState<string>('');
   const [autoCompleteList, setAutoCompleteList] = useState<string[]>([]);
 
-  function getCoins() {
-    dispatch(fetchCoins());
-  }
-
-  useEffect(() => {
-    getCoins();
-  }, []);
-
   function onCoinSearchChange(input: string): void {
     dispatch(setCoinSearch(input));
     setShowWarning(false);
-  }
-
-  function onCoinSearchClear(): void {
-    dispatch(setCoinSearch(''));
   }
 
   function onTickerSearchChange(event: ChangeEvent<HTMLInputElement>): void {
@@ -41,7 +28,7 @@ const SearchBlock: FC = () => {
   }
 
   useEffect(() => {
-    coinSearch === "" ? setAutoCompleteList([]) : setAutoCompleteList(getAutoCompleteList());
+    coinSearch === '' ? setAutoCompleteList([]) : setAutoCompleteList(getAutoCompleteList());
 
   }, [coinSearch]);
 
@@ -115,46 +102,49 @@ const SearchBlock: FC = () => {
 
   function getAutoComplete() {
     return autoCompleteList.map((symbol) => (
-      { label: (<Tag color='#2db7f5'>{symbol}</Tag>), value: symbol }
+      {
+        label:
+          <Tag color='#2db7f5'
+               onClick={() => onAddClick(symbol)}>
+            {symbol}
+          </Tag>,
+        value: symbol,
+      }
     ));
   }
 
   return (
-    <div style={{ alignItems: 'center', display: 'flex', flexDirection: 'row' }}>
-      <div style={{ width: 300 }}>
+    <div className='flex-row'>
+      <div>
         <AutoComplete
+          className='coin-search'
+          popupClassName='coin-search-dropdown'
           onChange={onCoinSearchChange}
-          popupClassName={'dropdown'}
-          options={getAutoComplete()}
-          // onKe={() => onAddClick(coinSearch)}
-        >
+          options={getAutoComplete()}>
           <Search
-            //onSearch={onCoinSearchChange}
-            placeholder='Coin search'
+            placeholder='Add coin'
             allowClear
             enterButton='Add'
             size='large'
-          />
+            onSearch={onAddClick} />
         </AutoComplete>
+        {showWarning &&
+          <Alert
+            style={{ marginTop: 10 }}
+            message={warning}
+            type='warning'
+            showIcon
+            closable />}
       </div>
-
       <Input
+        className='ticker-search'
         onChange={onTickerSearchChange}
         onKeyDown={onTickerSearchKeyPress}
         placeholder='Ticker search'
         allowClear
         size='large'
-        prefix={<SearchOutlined />}
+        prefix={<SearchOutlined style={{ opacity: 0.5 }} />}
       />
-
-
-      {/*{showAutoComplete &&*/}
-      {/*  <div className='flex bg-white shadow-md p-1 rounded-md shadow-md flex-wrap'>*/}
-      {/*    {getAutoComplete()}*/}
-      {/*  </div>}*/}
-      {/*{showWarning && <div className='p-1 text-sm text-red-600'>{warning}</div>}*/}
-
-
     </div>
   );
 };

@@ -6,20 +6,79 @@
   background-color: white;
 }
 
-.header {
-  background-color: white;
+div {
+  line-height: normal;
+}
+
+.selected-ticker-border {
+  border-width: 3px;
+  border-color: #1677ff;
+}
+
+.content {
   padding: 10px;
 }
 
-.coin-search {
-  width: 300px;
-  padding-right: 10px;
+.header {
+  background-color: white;
+  padding: 10px;
+  height: auto;
+  
+  @media (max-width: 550px) {
+    .flex-row {
+      flex-wrap: wrap;
+      justify-content: center;
+
+      .coin-search {
+        margin: 2px;
+        width: 100%;
+      }
+
+      .ticker-search {
+        margin: 2px;
+        width: 100%;
+      }
+    }
+  }
 }
 
-.dropdown {
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+
+.coin-search {
+  width: 250px;
+}
+
+.ticker-search {
+  width: 250px;
+}
+
+.coin-search-dropdown {
+  height: 38px;
+  width: auto !important;
+  min-width: 0 !important;
+
   .rc-virtual-list-holder-inner {
-    flex-direction: row!important;
+    flex-direction: row !important;
+    height: 30px;
+
+    .ant-tag {
+      margin-right: 4px;
+    }
+
+    .ant-select-item-option-active {
+      background-color: white;
+
+      .ant-tag {
+        background-color: #2492c4 !important;
+      }
+    }
   }
+
   .ant-select-item {
     padding-right: 2px;
     padding-left: 2px;
@@ -29,26 +88,31 @@
 .container {
   width: 100%;
 }
+
 @media (min-width: 640px) {
   .container {
     max-width: 640px;
   }
 }
+
 @media (min-width: 768px) {
   .container {
     max-width: 768px;
   }
 }
+
 @media (min-width: 1024px) {
   .container {
     max-width: 1024px;
   }
 }
+
 @media (min-width: 1280px) {
   .container {
     max-width: 1280px;
   }
 }
+
 @media (min-width: 1536px) {
   .container {
     max-width: 1536px;

@@ -2,6 +2,7 @@ import React, { FC, useEffect } from 'react';
 import SearchBlock from './SearchBlock';
 import { fetchCoins } from '../redux/slice/coinsSlice';
 import { useAppDispatch } from '../redux/store';
+import { Header } from 'antd/es/layout/layout';
 
 const HeaderBlock: FC = () => {
   const dispatch = useAppDispatch();
@@ -15,9 +16,9 @@ const HeaderBlock: FC = () => {
   }, []);
 
   return (
-    <div className='container mx-auto flex flex-col items-center bg-gray-100 p-4  bg-gray-300'>
-      <section className='container'><SearchBlock /></section>
-    </div>
+    <Header className='header'>
+      <SearchBlock />
+    </Header>
   );
 };
 

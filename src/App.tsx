@@ -10,7 +10,7 @@ import './assets/index.scss'
 
 
 function App() {
-  // @ts-ignore
+
   return (
     // <Routes>
     //   <Route path='/' element={<MainLayout />}>
@@ -19,11 +19,9 @@ function App() {
     // </Routes>
     <Layout className='root'>
       <div className='container'>
-        <Header className='header'>
-          <SearchBlock />
-        </Header>
-        <Content>
-          Content
+        <HeaderBlock/>
+        <Content className='content'>
+          <Home/>
         </Content>
         <Footer>Footer</Footer>
       </div>
