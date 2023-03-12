@@ -4,8 +4,11 @@ import { useSelector } from 'react-redux';
 import { selectTickerState, Ticker } from '../redux/slice/tickerSlice';
 import { selectSearchState } from '../redux/slice/searchSlice';
 import { Col, Pagination, Row } from 'antd';
+import { clearPlotItems, setIsPlotActive } from '../redux/slice/plotSlice';
+import { useAppDispatch } from '../redux/store';
 
 const TickersPane = () => {
+  const dispatch = useAppDispatch();
   const pageRangeDisplayed: number = 8;
   const [currentPage, setCurrentPage] = useState<number>(1);
   const { tickers } = useSelector(selectTickerState);
@@ -13,7 +16,7 @@ const TickersPane = () => {
   const filteredTickers: Ticker[] = getFilteredTickers();
 
   function getFilteredTickers(): Ticker[] {
-   return tickers.filter(ticker => ticker.name.toLowerCase()
+    return tickers.filter(ticker => ticker.name.toLowerCase()
       .includes(tickerSearch.toLowerCase()));
   }
 
@@ -31,42 +34,39 @@ const TickersPane = () => {
   }
 
   function getLastIndex(tickersSize: number, page: number) {
-    if(page === getTotalPages(tickersSize)) {
-      return tickersSize
+    if (page === getTotalPages(tickersSize)) {
+      return tickersSize;
     } else {
       return page * pageRangeDisplayed;
     }
   }
 
   function getTotalPages(tickersLength: number): number {
-    return  Math.ceil(tickersLength / pageRangeDisplayed)
+    return Math.ceil(tickersLength / pageRangeDisplayed);
   }
 
   function onPageClick(page: number): void {
     setCurrentPage(page);
+    dispatch(setIsPlotActive(false));
+    dispatch(clearPlotItems);
   }
 
   useEffect(() => {
   }, [tickerSearch, currentPage]);
-
-  const style = {
-    background: '#0092ff',
-    padding: '8px 0',
-  };
 
   return (
     <>
       <Row gutter={[16, 24]}>
         {
           getPageTickers().map((ticker, index) =>
-            <Col className="gutter-row" span={6}>
+            <Col className='gutter-row' span={6}>
               <TickerBlock key={index} {...ticker} />
-            </Col>
+            </Col>,
           )
         }
       </Row>
       {filteredTickers.length > pageRangeDisplayed &&
-        <div style={{display: 'flex', justifyContent: 'center', padding: 15}}>
+        <div style={{ display: 'flex', justifyContent: 'center', paddingTop: 10 }}>
           <Pagination
             defaultCurrent={1}
             total={filteredTickers.length + 2}
