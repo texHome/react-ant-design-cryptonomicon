@@ -3,8 +3,7 @@ import TickerBlock from './TickerBlock';
 import { useSelector } from 'react-redux';
 import { selectTickerState, Ticker } from '../redux/slice/tickerSlice';
 import { selectSearchState } from '../redux/slice/searchSlice';
-import Pagination from './Pagination';
-import { Col, Row } from 'antd';
+import { Col, Pagination, Row } from 'antd';
 
 const TickersPane = () => {
   const pageRangeDisplayed: number = 8;
@@ -67,9 +66,12 @@ const TickersPane = () => {
         }
       </Row>
       {filteredTickers.length > pageRangeDisplayed &&
-        <div className='flex items-center justify-center text-center mt-5'>
-          <Pagination currentPage={currentPage} totalPages={getTotalPages(filteredTickers.length)}
-                      onPageClick={onPageClick} />
+        <div style={{display: 'flex', justifyContent: 'center', padding: 15}}>
+          <Pagination
+            defaultCurrent={1}
+            total={filteredTickers.length + 2}
+            onChange={onPageClick}
+          />
         </div>}
     </>
   );
