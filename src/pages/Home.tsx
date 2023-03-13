@@ -11,7 +11,7 @@ const Home: FC = () => {
 
   return (
     <div>
-      {tickers.length> 0 && <TickersPane />}
+      <TickersPane />
       {isPlotActive && <Plot />}
     </div>
   );

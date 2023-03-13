@@ -23,7 +23,11 @@ function App() {
         <Content className='content'>
           <Home/>
         </Content>
-        <Footer>Footer</Footer>
+        <Footer className='footer'>
+          <div>
+            <p>©2023 by <a className="font-semibold">Oleksii Zinkevych</a> All Rights Reserved</p>
+          </div>
+        </Footer>
       </div>
     </Layout>
   );
