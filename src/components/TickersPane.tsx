@@ -59,7 +59,7 @@ const TickersPane = () => {
       <Row gutter={[16, 24]}>
         {
           getPageTickers().map((ticker, index) =>
-            <Col className='gutter-row' span={6}>
+            <Col key={index} className='gutter-row' span={6}>
               <TickerBlock key={index} {...ticker} />
             </Col>,
           )

@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { removeTicker, selectTickerState, setSelectedTickerName, Ticker } from '../redux/slice/tickerSlice';
 import { useAppDispatch } from '../redux/store';
 import { unsubscribe } from '../api/api';
@@ -56,7 +56,7 @@ const TickerBlock: FC<Ticker> = ({ name, price, url }) => {
       bordered={true}
       style={{ width: 365 }}
       actions={[
-        <DeleteOutlined key='delete' onClick={onRemoveClick} />,
+        <DeleteOutlined height={32} width={32} twoToneColor={'#1677ff'} key='delete' onClick={onRemoveClick} />,
       ]}>
       <h2 onClick={onTickerClick} style={{ textAlign: 'center', padding: 24, margin: 0 }}>{price}</h2>
     </Card>

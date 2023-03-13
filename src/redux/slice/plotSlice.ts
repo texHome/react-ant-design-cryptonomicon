@@ -1,10 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 
+export type PlotItem = {
+  price: string,
+  date: string
+}
 
 type PlotSliceState = {
   isPlotActive: boolean,
-  items: string[],
+  items: PlotItem[],
 }
 
 const initialState: PlotSliceState = {
@@ -17,7 +21,7 @@ export const plotSlice = createSlice({
   initialState,
   reducers: {
     addPlotItem(state: PlotSliceState, action: PayloadAction<string>): any {
-      state.items.push(action.payload);
+      state.items.push({price: action.payload, date: new Date().toLocaleTimeString('ru-RU')});
     },
     clearPlotItems(state: PlotSliceState) {
       state.items = [];
