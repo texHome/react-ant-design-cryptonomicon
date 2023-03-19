@@ -92,6 +92,15 @@ div.ant-card-meta-title {
   align-items: center;
 }
 
+.ticker-pane {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: left;
+  align-items: center;
+  gap: 18px;
+}
+
 .coin-search {
   width: 250px;
 }

@@ -3,10 +3,11 @@ import TickerBlock from './TickerBlock';
 import { useSelector } from 'react-redux';
 import { selectTickerState, Ticker } from '../redux/slice/tickerSlice';
 import { selectSearchState } from '../redux/slice/searchSlice';
-import { Col, Pagination, Row } from 'antd';
+import { Col, Empty, Pagination, Row } from 'antd';
 import { clearPlotItems, setIsPlotActive } from '../redux/slice/plotSlice';
 import { useAppDispatch } from '../redux/store';
 import TickerSkeleton from './TickerSkeleton';
+import RcQueueAnim from 'rc-queue-anim';
 
 const TickersPane = () => {
   const dispatch = useAppDispatch();
@@ -19,17 +20,25 @@ const TickersPane = () => {
 
   function getTickers(): ReactNode {
     return getPageTickers().map((ticker, index) =>
-      <Col key={index} className='gutter-row' span={6}>
-        <TickerBlock key={index} {...ticker} />
-      </Col>)
+      <div key={`ticker-${index}`}><TickerBlock {...ticker} /></div>);
+  }
+
+  function getPagination(): ReactNode {
+    return filteredTickers.length > pageRangeDisplayed
+      ? <div key='key' style={{ display: 'flex', justifyContent: 'center', paddingTop: 10 }}>
+          <Pagination
+            defaultCurrent={1}
+            total={filteredTickers.length + 2}
+            onChange={onPageClick}
+          />
+        </div>
+      : <div key='key2'/>
   }
 
   function getTickerSkeletons(): ReactNode {
-    const skeletonCount = tickers.length > 7 ? 0 : 8 - tickers.length
+    const skeletonCount = tickers.length > 7 ? 0 : 8 - tickers.length;
     return [...new Array(skeletonCount)].map((_, index) =>
-      <Col key={index} className='gutter-row' span={6}>
-      <TickerSkeleton key={index} />
-      </Col>)
+      <div key={`skeleton-${index}`} ><TickerSkeleton/></div>);
   }
 
   function getFilteredTickers(): Ticker[] {
@@ -73,18 +82,21 @@ const TickersPane = () => {
 
   return (
     <>
-      <Row gutter={[16, 24]}>
-        {getTickers()}
-        {getTickerSkeletons()}
-      </Row>
-      {filteredTickers.length > pageRangeDisplayed &&
-        <div style={{ display: 'flex', justifyContent: 'center', paddingTop: 10 }}>
-          <Pagination
-            defaultCurrent={1}
-            total={filteredTickers.length + 2}
-            onChange={onPageClick}
-          />
-        </div>}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr' }}>
+        {filteredTickers.length === 0 &&
+          <div style={{gridRowStart: 1, gridColumnStart: 1}}>
+            <Empty style={{ height: 182, display: 'flex', justifyContent: 'center', alignItems: 'center' }} description={false} />
+          </div>}
+        <div style={{ minHeight:182, gridRowStart: 1, gridColumnStart: 1, alignItems: 'center' }}>
+          <RcQueueAnim className='ticker-pane'>
+            {getTickers()}
+          </RcQueueAnim>
+        </div>
+      </div>
+
+      <RcQueueAnim type={'scale'}>
+        {getPagination()}
+      </RcQueueAnim>
     </>
   );
 };
