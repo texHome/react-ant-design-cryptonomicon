@@ -3,7 +3,7 @@ import TickerBlock from './TickerBlock';
 import { useSelector } from 'react-redux';
 import { selectTickerState, Ticker } from '../redux/slice/tickerSlice';
 import { selectSearchState } from '../redux/slice/searchSlice';
-import { Col, Empty, Pagination, Row } from 'antd';
+import { Empty, Pagination } from 'antd';
 import { clearPlotItems, setIsPlotActive } from '../redux/slice/plotSlice';
 import { useAppDispatch } from '../redux/store';
 import TickerSkeleton from './TickerSkeleton';
@@ -25,14 +25,14 @@ const TickersPane = () => {
 
   function getPagination(): ReactNode {
     return filteredTickers.length > pageRangeDisplayed
-      ? <div key='key' style={{ display: 'flex', justifyContent: 'center', paddingTop: 10 }}>
+      ? <div key='pagination' style={{ display: 'flex', justifyContent: 'center', paddingTop: 10 }}>
           <Pagination
             defaultCurrent={1}
             total={filteredTickers.length + 2}
             onChange={onPageClick}
           />
         </div>
-      : <div key='key2'/>
+      : <div key='empty-pagination'/>
   }
 
   function getTickerSkeletons(): ReactNode {
