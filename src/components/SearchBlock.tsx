@@ -115,9 +115,9 @@ const SearchBlock: FC = () => {
 
   return (
     <div className='flex-row'>
-      <div>
+      <div className='coin-search'>
         <AutoComplete
-          className='coin-search'
+          style={{width: '100%'}}
           popupClassName='coin-search-dropdown'
           onChange={onCoinSearchChange}
           options={getAutoComplete()}>

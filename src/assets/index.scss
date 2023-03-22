@@ -46,18 +46,17 @@ div.ant-card-meta-title {
   padding: 10px;
   height: auto;
   
-  @media (max-width: 550px) {
+  @media (max-width: 803px) {
     .flex-row {
       flex-wrap: wrap;
       justify-content: center;
 
       .coin-search {
-        margin: 2px;
+        padding-bottom: 20px;
         width: 100%;
       }
 
       .ticker-search {
-        margin: 2px;
         width: 100%;
       }
     }
@@ -138,35 +137,17 @@ div.ant-card-meta-title {
 }
 
 .container {
-  width: 100%;
-}
+  width: 1536px;
 
-@media (min-width: 640px) {
-  .container {
-    max-width: 640px;
+  @media (max-width: 803px) {
+      max-width: 380px;
   }
-}
 
-@media (min-width: 768px) {
-  .container {
-    max-width: 768px;
+  @media (min-width: 804px) and (max-width: 1186px) {
+      max-width: 768px;
   }
-}
 
-@media (min-width: 1024px) {
-  .container {
-    max-width: 1024px;
-  }
-}
-
-@media (min-width: 1280px) {
-  .container {
-    max-width: 1280px;
-  }
-}
-
-@media (min-width: 1536px) {
-  .container {
-    max-width: 1536px;
+  @media (min-width: 1187px) and (max-width: 1569px) {
+      max-width: 1153px;
   }
 }
