@@ -20,13 +20,16 @@ export const plotSlice = createSlice({
   name: 'plot',
   initialState,
   reducers: {
-    addPlotItem(state: PlotSliceState, action: PayloadAction<string>): any {
-      state.items.push({price: action.payload, date: new Date().toLocaleTimeString('ru-RU')});
+    addPlotItem(state: PlotSliceState, action: PayloadAction<string>): void {
+      state.items.push({ price: action.payload, date: new Date().toLocaleTimeString('ru-RU') });
+      if (state.items.length > 85) {
+        state.items = state.items.slice(state.items.length - 85);
+      }
     },
-    clearPlotItems(state: PlotSliceState) {
+    clearPlotItems(state: PlotSliceState): void {
       state.items = [];
     },
-    setIsPlotActive(state: PlotSliceState, action: PayloadAction<boolean>): any {
+    setIsPlotActive(state: PlotSliceState, action: PayloadAction<boolean>): void {
       state.isPlotActive = action.payload;
     },
   },

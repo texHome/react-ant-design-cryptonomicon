@@ -19,7 +19,7 @@ export const searchSlice = createSlice({
     setCoinSearch(state: SearchState, action: PayloadAction<string>): void {
       state.coinSearch = action.payload;
     },
-    setTickerSearch(state: SearchState, action: PayloadAction<string>) {
+    setTickerSearch(state: SearchState, action: PayloadAction<string>): void {
       state.tickerSearch = action.payload;
     }
   },
