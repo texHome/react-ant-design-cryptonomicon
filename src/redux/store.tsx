@@ -2,12 +2,12 @@ import storage from 'redux-persist/es/storage';
 import thunk from 'redux-thunk';
 import { Ticker, tickerReducer, TickerSliceState, updateTicker } from './slice/tickerSlice';
 import { searchReducer } from './slice/searchSlice';
+import { coinsReducer } from './slice/coinsSlice';
+import { plotReducer } from './slice/plotSlice';
 import { useDispatch } from 'react-redux';
 import { persistReducer, persistStore } from 'redux-persist';
 import { combineReducers, configureStore, PayloadAction, Reducer } from '@reduxjs/toolkit';
 import { subscribe } from '../api/api';
-import { coinsReducer } from './slice/coinsSlice';
-import { plotReducer } from './slice/plotSlice';
 
 const tickerPersistConfig = {
   key: 'ticker',
