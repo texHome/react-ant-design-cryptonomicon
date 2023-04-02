@@ -1,10 +1,10 @@
 import storage from 'redux-persist/es/storage';
-import thunk from 'redux-thunk'
+import thunk from 'redux-thunk';
 import { Ticker, tickerReducer, TickerSliceState, updateTicker } from './slice/tickerSlice';
 import { searchReducer } from './slice/searchSlice';
 import { useDispatch } from 'react-redux';
 import { persistReducer, persistStore } from 'redux-persist';
-import { combineReducers, configureStore, PayloadAction } from '@reduxjs/toolkit';
+import { combineReducers, configureStore, PayloadAction, Reducer } from '@reduxjs/toolkit';
 import { subscribe } from '../api/api';
 import { coinsReducer } from './slice/coinsSlice';
 import { plotReducer } from './slice/plotSlice';
@@ -15,7 +15,7 @@ const tickerPersistConfig = {
   blacklist: ['selectedTickerName'],
 };
 
-const customPersistReducer = (reducer: any) => {
+const tickerPersistReducer = (reducer:  Reducer<TickerSliceState>) => {
   return persistReducer(tickerPersistConfig, (state: any, action: PayloadAction<TickerSliceState>) => {
     if (action.type === 'persist/REHYDRATE') {
       if (action.payload && action.payload.tickers) {
@@ -35,7 +35,7 @@ const customPersistReducer = (reducer: any) => {
 
 const reducers = combineReducers({
   coins: coinsReducer,
-  ticker: customPersistReducer(tickerReducer),
+  ticker: tickerPersistReducer(tickerReducer),
   plot: plotReducer,
   search: searchReducer,
 });
