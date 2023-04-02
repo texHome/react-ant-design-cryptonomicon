@@ -16,12 +16,6 @@ export type SubscribeMessage = {
   subs: string[]
 }
 
-export type Message = {
-  TYPE: string,
-  FROMSYMBOL: string,
-  PRICE: number
-}
-
 export function subscribe(name: string, handler: (newPrice: string) => void): void {
   const message = getMessage(name, SubscribeMessageType.SUBSCRIBE);
   sendMessage(message);
