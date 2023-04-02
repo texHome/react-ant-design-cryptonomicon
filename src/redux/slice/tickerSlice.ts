@@ -4,17 +4,17 @@ import { RootState } from '../store';
 export interface Ticker {
   name: string;
   price: string;
-  url: string
+  url: string;
 }
 
-type TickerSliceState = {
+export type TickerSliceState = {
   tickers: Ticker[],
   selectedTickerName: string | null
 }
 
 const initialState: TickerSliceState = {
   tickers: [],
-  selectedTickerName: null
+  selectedTickerName: null,
 };
 
 export const tickerSlice = createSlice({
@@ -34,7 +34,7 @@ export const tickerSlice = createSlice({
     },
     setSelectedTickerName(state: TickerSliceState, action: PayloadAction<string | null>): void {
       state.selectedTickerName = action.payload;
-    }
+    },
   },
 });
 
@@ -44,4 +44,4 @@ export function selectTickerState(state: RootState): TickerSliceState {
 
 export const { addTicker, removeTicker, updateTicker, setSelectedTickerName } = tickerSlice.actions;
 
-export default tickerSlice.reducer;
+export const tickerReducer = tickerSlice.reducer;

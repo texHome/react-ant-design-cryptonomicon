@@ -59,4 +59,4 @@ export function selectCoinsState(state: RootState): CoinsState {
   return state.coins;
 }
 
-export default coinsSlice.reducer;
+export const coinsReducer = coinsSlice.reducer;

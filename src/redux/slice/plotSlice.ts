@@ -41,4 +41,4 @@ export function selectPlotState(state: RootState): PlotSliceState {
 
 export const { addPlotItem, clearPlotItems, setIsPlotActive } = plotSlice.actions;
 
-export default plotSlice.reducer;
+export const plotReducer = plotSlice.reducer;

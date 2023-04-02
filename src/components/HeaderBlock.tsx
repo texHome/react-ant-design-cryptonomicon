@@ -7,13 +7,9 @@ import { Header } from 'antd/es/layout/layout';
 const HeaderBlock: FC = () => {
   const dispatch = useAppDispatch();
 
-  function getCoins() {
-    dispatch(fetchCoins());
-  }
-
   useEffect(() => {
-    getCoins();
-  }, []);
+    dispatch(fetchCoins() as any);
+  }, [dispatch]);
 
   return (
     <Header className='header'>

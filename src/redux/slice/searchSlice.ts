@@ -31,4 +31,4 @@ export function selectSearchState(state: RootState): SearchState {
 
 export const { setCoinSearch, setTickerSearch } = searchSlice.actions;
 
-export default searchSlice.reducer;
+export const searchReducer = searchSlice.reducer;
