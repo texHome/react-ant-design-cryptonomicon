@@ -5,7 +5,6 @@ const AGGREGATE_INDEX: string = '5';
 const tickersHandlers: Map<string, (newPrice: string) => void> = new Map();
 let websocket: WebSocket;
 
-
 export enum SubscribeMessageType {
   SUBSCRIBE = 'SubAdd',
   UNSUBSCRIBE = 'SubRemove'
