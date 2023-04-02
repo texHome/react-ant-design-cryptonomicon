@@ -3,7 +3,7 @@ const API_KEY: string = '3a20abbc7379ef2d63c3a3f3b78efd53a44870ee29e751b9093726e
 const URL: string = `wss://streamer.cryptocompare.com/v2/?api_key=${API_KEY}`;
 const AGGREGATE_INDEX: string = '5';
 const tickersHandlers: Map<string, (newPrice: string) => void> = new Map();
-let websocket: WebSocket;
+const websocket: WebSocket = createWebSocket();
 
 export enum SubscribeMessageType {
   SUBSCRIBE = 'SubAdd',
@@ -28,7 +28,6 @@ export function unsubscribe(name: string): void {
 }
 
 function sendMessage(message: SubscribeMessage) {
-  createWebSocket();
   const stringifiedMessage = JSON.stringify(message);
 
   if (websocket.readyState === WebSocket.OPEN) {
@@ -41,14 +40,13 @@ function sendMessage(message: SubscribeMessage) {
   }
 }
 
-function createWebSocket() {
-  if (!websocket) {
-    websocket = new WebSocket(URL);
-  }
-  addEventListener();
+function createWebSocket(): WebSocket {
+  const websocket: WebSocket = new WebSocket(URL);
+  addEventListener(websocket);
+  return websocket;
 }
 
-function addEventListener(): void {
+function addEventListener(websocket: WebSocket): void {
   websocket.addEventListener('message', e => {
     const { TYPE: type, FROMSYMBOL: name, PRICE: newPrice } = JSON.parse(e.data);
     if (type === AGGREGATE_INDEX && newPrice !== undefined) {
